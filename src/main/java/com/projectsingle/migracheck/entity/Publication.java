@@ -1,19 +1,18 @@
 package com.projectsingle.migracheck.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
-
 import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,12 +32,19 @@ public class Publication {
 
     @CreationTimestamp
     @Column(name = "data_creation", updatable = false, nullable = false)
-    private LocalDateTime dataCreation;
+    private LocalDateTime dateCreation;
 
-    @Enumerated
-    private Procedure procedure;
+    @CreationTimestamp
+    @Column(name = "data_update", updatable = false, nullable = false)
+    private LocalDateTime dateUpdate;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    private User creatorId;
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    private User user;
+
+    @Enumerated
+    @Column(nullable = false)
+    private Procedure procedure;
 }
+
+
