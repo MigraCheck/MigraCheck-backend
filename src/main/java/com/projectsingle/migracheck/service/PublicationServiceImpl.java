@@ -38,9 +38,8 @@ public class PublicationServiceImpl implements PublicationService {
         Publication existingPublication = publicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
 
-        // 🔐 VALIDACIÓN DE PROPIEDAD
-        if (!existingPublication.getUser().getId().equals(userId)) {
-            throw new RuntimeException("No tienes permiso para editar esta publicación");
+            if (!existingPublication.getUser().getId().equals(userId)) {
+                throw new RuntimeException("No tienes permiso para editar esta publicación");
         }
 
         existingPublication.setMessage(publication.getMessage());
@@ -65,7 +64,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Page<Publication> getAllPublicationsByUser(int userId, int page) {
+    public Page<Publication> getAllPublicationsByUser(int page, int userId) {
         return publicationRepository.findByUserId(userId, getPageable(page));
     }
 
