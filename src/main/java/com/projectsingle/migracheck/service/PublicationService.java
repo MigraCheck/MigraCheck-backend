@@ -9,7 +9,7 @@ import com.projectsingle.migracheck.entity.Publication;
 
 public interface  PublicationService {
     
-    Publication createPublication(Publication publication);
+    Publication createPublication(Publication publication, int userId);
 
     Publication updatePublication(int id, Publication publication, int userId);
 
@@ -21,5 +21,5 @@ public interface  PublicationService {
 
     Page<Publication> filterByProcedure(int page, Procedure procedure);
 
-    Page<Publication> filterByDate(int page, LocalDateTime startDate, LocalDateTime endDate);
+    Page<Publication> filterByDateCreation(LocalDateTime startDate, LocalDateTime endDate, int page);
 }

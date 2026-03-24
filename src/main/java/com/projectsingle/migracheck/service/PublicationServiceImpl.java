@@ -2,14 +2,15 @@ package com.projectsingle.migracheck.service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.projectsingle.migracheck.entity.Procedure;
 import com.projectsingle.migracheck.entity.Publication;
+import com.projectsingle.migracheck.entity.User;
 import com.projectsingle.migracheck.repository.PublicationRepository;
 
 
@@ -17,9 +18,11 @@ import com.projectsingle.migracheck.repository.PublicationRepository;
 public class PublicationServiceImpl implements PublicationService {
     
     private final PublicationRepository publicationRepository;
+    private final UserService userService;
 
-    public PublicationServiceImpl(PublicationRepository publicationRepository){
+    public PublicationServiceImpl(PublicationRepository publicationRepository, UserService userService){
         this.publicationRepository = publicationRepository;
+        this.userService = userService;
     }
 
     private Pageable getPageable(int page) {
@@ -27,8 +30,11 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication createPublication(Publication publicationNew){
+    public Publication createPublication(Publication publicationNew, int userId){
+        User user = userService.getUserById(userId);
+        publicationNew.setUser(user);
         publicationNew.setDateCreation(LocalDateTime.now());
+        //publicationNew.setDateUpdate(null);
         return publicationRepository.save(publicationNew);
     }
 
@@ -38,9 +44,8 @@ public class PublicationServiceImpl implements PublicationService {
         Publication existingPublication = publicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
 
-        // 🔐 VALIDACIÓN DE PROPIEDAD
-        if (!existingPublication.getUser().getId().equals(userId)) {
-            throw new RuntimeException("No tienes permiso para editar esta publicación");
+            if (!existingPublication.getUser().getId().equals(userId)) {
+                throw new RuntimeException("No tienes permiso para editar esta publicación");
         }
 
         existingPublication.setMessage(publication.getMessage());
@@ -65,7 +70,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Page<Publication> getAllPublicationsByUser(int userId, int page) {
+    public Page<Publication> getAllPublicationsByUser(int page, int userId) {
         return publicationRepository.findByUserId(userId, getPageable(page));
     }
 
@@ -75,7 +80,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Page<Publication> filterByDate(int page, LocalDateTime startDate, LocalDateTime endDate) {
-        return publicationRepository.findByDatePublications(startDate, endDate, getPageable(page));
+    public Page<Publication> filterByDateCreation(LocalDateTime startDate, LocalDateTime endDate, int page) {
+        return publicationRepository.findByDateCreation(startDate, endDate, getPageable(page));
     }
 }
