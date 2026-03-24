@@ -14,5 +14,5 @@ public interface PublicationRepository extends JpaRepository<Publication, Intege
 
     public Page<Publication> findByProcedure(Procedure procedure, Pageable pageable);
 
-    public Page<Publication> findByDatePublications(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    public Page<Publication> findByDateCreation(LocalDateTime start, LocalDateTime end, Pageable pageable);
 }

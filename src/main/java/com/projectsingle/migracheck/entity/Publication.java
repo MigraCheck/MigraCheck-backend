@@ -31,11 +31,11 @@ public class Publication {
     private String message;
 
     @CreationTimestamp
-    @Column(name = "data_creation", updatable = false, nullable = false)
+    @Column(name = "date_creation", updatable = false, nullable = false)
     private LocalDateTime dateCreation;
 
     @CreationTimestamp
-    @Column(name = "data_update", updatable = false, nullable = false)
+    @Column(name = "date_update", updatable = false, nullable = false)
     private LocalDateTime dateUpdate;
 
     @ManyToOne

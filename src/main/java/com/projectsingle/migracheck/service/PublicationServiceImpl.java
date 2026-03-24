@@ -75,6 +75,6 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public Page<Publication> filterByDate(int page, LocalDateTime startDate, LocalDateTime endDate) {
-        return publicationRepository.findByDatePublications(startDate, endDate, getPageable(page));
+        return publicationRepository.findByDateCreation(startDate, endDate, getPageable(page));
     }
 }
