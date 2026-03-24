@@ -1,5 +1,7 @@
 package com.projectsingle.migracheck.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -31,11 +33,13 @@ public class Publication {
     private String message;
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm")
     @Column(name = "date_creation", updatable = false, nullable = false)
     private LocalDateTime dateCreation;
 
     @CreationTimestamp
-    @Column(name = "date_update", updatable = false, nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm")
+    @Column(name = "date_update", nullable = true)
     private LocalDateTime dateUpdate;
 
     @ManyToOne
