@@ -1,0 +1,16 @@
+package com.projectsingle.migracheck.entity;
+
+public enum Procedure {
+    BANCOS,
+    VIVIENDA,
+    EMPADRONARSE,
+    TURISMO_GAUDIRMES,
+    LINEA_MOVIL,
+    TARJETA_SANITARIA,
+    IDCAT_MOVIL,
+    TARJETA_TRANSPORTE,
+    CARNE_BIBLIOTECA,
+    ESCOLARIZACION,
+    HOMOLOGACION_ESTUDIOS,
+    INTEGRACION
+}
